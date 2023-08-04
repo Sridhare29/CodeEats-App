@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_applications/colors/dimensions.dart';
+import 'package:flutter_applications/routes/route_helper.dart';
 import 'package:flutter_applications/widget/app_column.dart';
 import 'package:flutter_applications/widget/app_icon.dart';
+import 'package:get/get.dart';
 
 import '../../colors/colors.dart';
 import '../../widget/big_text.dart';
 import '../../widget/expandable_text.dart';
 import '../../widget/small_text.dart';
+import '../food_ carousel.dart';
+import '../home_screen.dart';
 import '../icon_and_text_widget.dart';
 
 class FoodDetail extends StatelessWidget {
@@ -41,7 +45,11 @@ class FoodDetail extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppIcon(icon: Icons.arrow_back_ios),
+                GestureDetector(
+                  onTap: (){
+                    Get.toNamed(RouterHelper.initial);
+                  },
+                  child: AppIcon(icon: Icons.arrow_back_ios)),
                 AppIcon(icon: Icons.shopping_cart_outlined)
               ],
             ),

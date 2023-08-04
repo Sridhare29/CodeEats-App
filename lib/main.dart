@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_applications/routes/route_helper.dart';
 import 'package:flutter_applications/screens/food/recommended_food_details.dart';
 import 'package:flutter_applications/screens/food_%20carousel.dart';
 import 'package:flutter_applications/screens/home_screen.dart';
@@ -24,9 +25,8 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Ecommerce App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      initialRoute: RouterHelper.initial,
+      getPages: RouterHelper.routes,
       home: const HomeScreen(),
     );
   }

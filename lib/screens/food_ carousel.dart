@@ -12,6 +12,7 @@ import 'package:flutter_applications/widget/small_text.dart';
 import 'package:get/get.dart';
 
 import '../data/controllers/recommended_product_controller.dart';
+import '../routes/route_helper.dart';
 import '../widget/app_column.dart';
 import '../widget/expandable_text.dart';
 
@@ -48,12 +49,17 @@ class _FoodPageBodyState extends State<FoodItem> {
         GetBuilder<ProductController>(builder: (popularProducts){
           return popularProducts.isLoaded?Container(
           height: Dimensions.pageView,
-          child: PageView.builder(
-              controller: pageController,
-              itemCount: popularProducts.ProductList.length,
-              itemBuilder: (context, position) {
-                return _buildPageItem(position,popularProducts.ProductList[position]);
-              }),
+          child: GestureDetector(
+            onTap: (){
+              Get.toNamed(RouterHelper.popularfood);
+            },
+            child: PageView.builder(
+                controller: pageController,
+                itemCount: popularProducts.ProductList.length,
+                itemBuilder: (context, position) {
+                  return _buildPageItem(position,popularProducts.ProductList[position]);
+                }),
+          ),
         ): CircularProgressIndicator(color: AppColors.mainColor,);
         }),
         GetBuilder<ProductController>(builder: (popularProducts){
