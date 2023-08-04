@@ -13,12 +13,13 @@ Future<void> getProductList() async {
 
   if (response.statusCode == 200) {
     print("Got Product");
-    List<dynamic> jsonResponse = response.body as List<dynamic>;
-    _productList = jsonResponse
-        .map((product) => ProductModel.fromJson(product))
-        .toList();
-    
-    print(_productList);
+    // List<dynamic> jsonResponse = response.body as List<dynamic>;
+    // _productList = jsonResponse
+    //     .map((product) => ProductModel.fromJson(product))
+    //     .toList();
+    _productList=[];
+    _productList.addAll(Product.fromJson(response.body).products as Iterable<ProductModel>);
+    //print(_productList);
     update();
   } else {
     // Handle the error case
