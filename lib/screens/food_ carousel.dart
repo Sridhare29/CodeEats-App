@@ -11,7 +11,9 @@ import 'package:flutter_applications/widget/big_text.dart';
 import 'package:flutter_applications/widget/small_text.dart';
 import 'package:get/get.dart';
 
+import '../data/controllers/recommended_product_controller.dart';
 import '../widget/app_column.dart';
+import '../widget/expandable_text.dart';
 
 class FoodItem extends StatefulWidget {
   const FoodItem({super.key});
@@ -101,29 +103,33 @@ class _FoodPageBodyState extends State<FoodItem> {
           ),
         ),
         //List of food
-       
-        ListView.builder(
-              itemCount: 10,
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) {
-                return Container(
-                  margin: EdgeInsets.only(
-                      left: Dimensions.width20, right: Dimensions.width20,bottom: Dimensions.width10),
-                  child: Row(
-                    children: [
-                      //image section
-                      Container(
-                        width: Dimensions.listViewImgSize,
-                        height: Dimensions.listViewImgSize,
-                        decoration: BoxDecoration(
-                            borderRadius:
-                                BorderRadius.circular(Dimensions.radius20),
-                                color: Colors.white38,
-                                image:const DecorationImage(
-                                fit: BoxFit.cover,
-                                image: AssetImage("images/jap.jpg"))),
-                      ),
+             GetBuilder<RecommendedProductController>(builder: (recommendedProduct){
+                 return recommendedProduct.isLoaded?ListView.builder(
+                  itemCount: recommendedProduct.RecommendedProductList.length,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return Container(
+                      margin: EdgeInsets.only(
+                          left: Dimensions.width20, right: Dimensions.width20,bottom: Dimensions.width10),
+                      child: Row(
+                        children: [
+                          //image section
+                          Container(
+                            width: Dimensions.listViewImgSize,
+                            height: Dimensions.listViewImgSize,
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.circular(Dimensions.radius20),
+                                    color: Colors.white38,
+                                    image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: NetworkImage(
+                                      AppConstants.BASE_URL+AppConstants.UPLOAD_URL+recommendedProduct.RecommendedProductList[index].img!
+                                    )
+                                    )
+                                    ),
+                          ),
                       //text section
                       Expanded(
                         child: Container(
@@ -141,9 +147,10 @@ class _FoodPageBodyState extends State<FoodItem> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              BigText(text: "Japanese Veg Ramen"),
+                              BigText(text: recommendedProduct.RecommendedProductList[index].name!),
                                SizedBox(height: Dimensions.height10),
                               SmallText(text: "with japanese characteristics"),
+                              // ExpandableTextWidget(text: recommendedProduct.RecommendedProductList[index].description!),
                               SizedBox(height: Dimensions.height10),
                                Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -170,7 +177,12 @@ class _FoodPageBodyState extends State<FoodItem> {
                     ],
                   ),
                 );
-              }),
+              }):CircularProgressIndicator(color: AppColors.mainColor,);
+
+
+               })
+
+
        
       ],
     );
@@ -218,7 +230,7 @@ class _FoodPageBodyState extends State<FoodItem> {
               image: DecorationImage(
                 fit: BoxFit.cover,
                 image: NetworkImage(
-                 AppConstants.BASE_URL+"/uploads/"+popularproductList.img!
+                 AppConstants.BASE_URL+AppConstants.UPLOAD_URL+popularproductList.img!
                 ),
               ),
             ),

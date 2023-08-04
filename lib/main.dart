@@ -4,6 +4,7 @@ import 'package:flutter_applications/screens/food_%20carousel.dart';
 import 'package:flutter_applications/screens/home_screen.dart';
 import 'package:get/get.dart';
 import 'data/controllers/product_controller.dart';
+import 'data/controllers/recommended_product_controller.dart';
 import 'helper/dependencies.dart' as dep;
 Future<void> main() async {
 
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
       Get.find<ProductController>().getProductList();
+      Get.find<RecommendedProductController>().getRecommendedProductList();
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Ecommerce App',
