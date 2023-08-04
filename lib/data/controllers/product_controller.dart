@@ -7,18 +7,21 @@ class ProductController extends GetxController{
   ProductController({required this.productRepo});
   List<ProductModel> _productList = [];
 List<ProductModel> get ProductList => _productList;
-
+bool _isLoader = false;
+bool get isLoaded => _isLoader;
 Future<void> getProductList() async {
   Response response = await productRepo.getProductList();
 
   if (response.statusCode == 200) {
     print("Got Product");
-    List<dynamic> jsonResponse = response.body as List<dynamic>;
-    _productList = jsonResponse
-        .map((product) => ProductModel.fromJson(product))
-        .toList();
-    
-    print(_productList);
+    // List<dynamic> jsonResponse = response.body as List<dynamic>;
+    // _productList = jsonResponse
+    //     .map((product) => ProductModel.fromJson(product))
+    //     .toList();
+    _productList=[];
+    _productList.addAll(Product.fromJson(response.body).products as Iterable<ProductModel>);
+    _isLoader = true;
+    //print(_productList);
     update();
   } else {
     // Handle the error case

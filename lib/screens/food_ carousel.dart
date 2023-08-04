@@ -1,11 +1,15 @@
 // ignore: file_names
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_applications/colors/app_constants.dart';
 import 'package:flutter_applications/colors/colors.dart';
 import 'package:flutter_applications/colors/dimensions.dart';
+import 'package:flutter_applications/data/controllers/product_controller.dart';
+import 'package:flutter_applications/models/products.dart';
 import 'package:flutter_applications/screens/icon_and_text_widget.dart';
 import 'package:flutter_applications/widget/big_text.dart';
 import 'package:flutter_applications/widget/small_text.dart';
+import 'package:get/get.dart';
 
 import '../widget/app_column.dart';
 
@@ -39,26 +43,30 @@ class _FoodPageBodyState extends State<FoodItem> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
+        GetBuilder<ProductController>(builder: (popularProducts){
+          return popularProducts.isLoaded?Container(
           height: Dimensions.pageView,
           child: PageView.builder(
               controller: pageController,
-              itemCount: 5,
+              itemCount: popularProducts.ProductList.length,
               itemBuilder: (context, position) {
-                return _buildPageItem(position);
+                return _buildPageItem(position,popularProducts.ProductList[position]);
               }),
-        ),
-        DotsIndicator(
-          dotsCount: 5,
-          position: _currPageValue,
-          decorator: DotsDecorator(
-            activeColor: AppColors.mainColor,
-            size: const Size.square(9.0),
-            activeSize: const Size(18.0, 9.0),
-            activeShape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5.0)),
-          ),
-        ),
+        ): CircularProgressIndicator(color: AppColors.mainColor,);
+        }),
+        GetBuilder<ProductController>(builder: (popularProducts){
+          return DotsIndicator(
+            dotsCount: popularProducts.ProductList.length<=0?1:popularProducts.ProductList.length,
+            position: _currPageValue,
+            decorator: DotsDecorator(
+              activeColor: AppColors.mainColor,
+              size: const Size.square(9.0),
+              activeSize: const Size(18.0, 9.0),
+              activeShape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5.0)),
+            ),
+          );
+        }),
         SizedBox(
           height: Dimensions.height20,
         ),
@@ -68,7 +76,7 @@ class _FoodPageBodyState extends State<FoodItem> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              BigText(text: "Popular"),
+              BigText(text: "Recommended"),
               SizedBox(
                 width: Dimensions.width10,
               ),
@@ -168,7 +176,7 @@ class _FoodPageBodyState extends State<FoodItem> {
     );
   }
 
-  Widget _buildPageItem(int index) {
+  Widget _buildPageItem(int index, ProductModel popularproductList) {
     Matrix4 matrix = new Matrix4.identity();
     if (index == _currPageValue.floor()) {
       var currScale = 1 - (_currPageValue - index) * (1 - _scaleFactor);
@@ -207,9 +215,11 @@ class _FoodPageBodyState extends State<FoodItem> {
               color: index.isEven
                   ? const Color(0xFF69c5df)
                   : const Color(0xFF9294cc),
-              image: const DecorationImage(
+              image: DecorationImage(
                 fit: BoxFit.cover,
-                image: AssetImage("images/briyani.jpg"),
+                image: NetworkImage(
+                 AppConstants.BASE_URL+"/uploads/"+popularproductList.img!
+                ),
               ),
             ),
           ),
@@ -236,7 +246,7 @@ class _FoodPageBodyState extends State<FoodItem> {
                     left: Dimensions.height20,
                     right: Dimensions.height20,
                     bottom: Dimensions.height10),
-                child:AppColumn(text: "Spicy Briyani",),
+                child:AppColumn(text: popularproductList.name!,),
               ),
             ),
           )
