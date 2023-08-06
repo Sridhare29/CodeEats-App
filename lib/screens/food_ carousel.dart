@@ -57,6 +57,7 @@ class _FoodPageBodyState extends State<FoodItem> {
                 }),
         ): CircularProgressIndicator(color: AppColors.mainColor,);
         }),
+
         GetBuilder<ProductController>(builder: (popularProducts){
           return DotsIndicator(
             dotsCount: popularProducts.ProductList.length<=0?1:popularProducts.ProductList.length,
@@ -104,6 +105,7 @@ class _FoodPageBodyState extends State<FoodItem> {
           ),
         ),
         //List of food
+        //Recommended
              GetBuilder<RecommendedProductController>(builder: (recommendedProduct){
                  return recommendedProduct.isLoaded?ListView.builder(
                   itemCount: recommendedProduct.RecommendedProductList.length,
@@ -112,7 +114,7 @@ class _FoodPageBodyState extends State<FoodItem> {
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: (){
-                        Get.toNamed(RouterHelper.getRecommededFood());
+                        Get.toNamed(RouterHelper.getRecommededFood(index));
                       },
                       child: Container(
                         margin: EdgeInsets.only(

@@ -15,7 +15,7 @@ class RouterHelper{
   //to add parameter we use these method
   static String getInitial()=> '$initial';
   static String getPopularFood(int pageId)=> '$popularfood?pageId=$pageId';
-  static String getRecommededFood()=> '$recommendedfood';
+  static String getRecommededFood(int pageId)=> '$recommendedfood?pageId=$pageId';
 
   static List<GetPage> routes=[
       GetPage(name: initial, page: ()=>HomeScreen()),
@@ -26,7 +26,8 @@ class RouterHelper{
 
       transition: Transition.fadeIn),
         GetPage(name: recommendedfood, page: (){
-        return RecommenedFoodDetail();
+         var pageId = Get.parameters['pageId'];
+        return RecommenedFoodDetail(pageId : int.parse(pageId!));
       },
       transition: Transition.fadeIn),
   ];
