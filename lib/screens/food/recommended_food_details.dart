@@ -1,31 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_applications/colors/app_constants.dart';
 import 'package:flutter_applications/colors/colors.dart';
 import 'package:flutter_applications/colors/dimensions.dart';
+import 'package:flutter_applications/data/controllers/recommended_product_controller.dart';
+import 'package:flutter_applications/routes/route_helper.dart';
 import 'package:flutter_applications/widget/app_icon.dart';
 import 'package:flutter_applications/widget/big_text.dart';
 import 'package:flutter_applications/widget/expandable_text.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 class RecommenedFoodDetail extends StatelessWidget {
-  const RecommenedFoodDetail({super.key});
+  final int pageId ;
+  RecommenedFoodDetail({super.key, required this.pageId});
 
   @override
   Widget build(BuildContext context) {
+    var product = Get.find<RecommendedProductController>().RecommendedProductList[pageId];
     return  Scaffold(
       backgroundColor: Colors.white,
        body: CustomScrollView(
         slivers: [
           SliverAppBar(
+            automaticallyImplyLeading : false,
             toolbarHeight: 70,
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppIcon(icon: Icons.clear),
+                GestureDetector(
+                  onTap: (){
+                    Get.toNamed(RouterHelper.getInitial());
+                  },
+                  child: AppIcon(icon: Icons.clear)),
                 AppIcon(icon: Icons.shopping_cart_outlined)
               ],
             ),
             bottom: PreferredSize(preferredSize: Size.fromHeight(20),
             child: Container(
-              child: Center(child: BigText(text: "Strawberry Pancakes",size: Dimensions.font16,),),
+              child: Center(child: BigText(text: product.name!,size: Dimensions.font16,),),
               width: double.maxFinite,
               padding: EdgeInsets.only(top: 10,bottom: 10),
               decoration: BoxDecoration(
@@ -40,7 +52,7 @@ class RecommenedFoodDetail extends StatelessWidget {
             pinned: true,
             expandedHeight: 300,
             flexibleSpace: FlexibleSpaceBar(
-               background: Image.asset("images/jap.jpg",
+               background: Image.network(AppConstants.BASE_URL+AppConstants.UPLOAD_URL+product.img!,
                width: double.maxFinite,
                fit: BoxFit.cover ,
                ),
@@ -50,7 +62,7 @@ class RecommenedFoodDetail extends StatelessWidget {
             child: Column(
               children: [
                 Container(
-                  child: ExpandableTextWidget(text: "A pancake is a thin, flat cake that's made by pouring batter into a pan—hence its name—and then flipping it so that both sides are cooked.A pancake is a thin, flat cake that's made by pouring batter into a pan—hence its name—and then flipping it so that both sides are cooked.A pancake is a thin, flat cake that's made by pouring batter into a pan—hence its name—and then flipping it so that both sides are cooked.A pancake is a thin, flat cake that's made by pouring batter into a pan—hence its name—and then flipping it so that both sides are cooked.A pancake is a thin, flat cake that's made by pouring batter into a pan—hence its name—and then flipping it so that both sides are cooked.A pancake is a thin, flat cake that's made by pouring batter into a pan—hence its name—and then flipping it so that both sides are cooked.A pancake is a thin, flat cake that's made by pouring batter into a pan—hence its name—and then flipping it so that both sides are cooked.A pancake is a thin, flat cake that's made by pouring batter into a pan—hence its name—and then flipping it so that both sides are cooked.A pancake is a thin, flat cake that's made by pouring batter into a pan—hence its name—and then flipping it so that both sides are cooked.A pancake is a thin, flat cake that's made by pouring batter into a pan—hence its name—and then flipping it so that both sides are cooked.A pancake is a thin, flat cake that's made by pouring batter into a pan—hence its name—and then flipping it so that both sides are cooked.A pancake is a thin, flat cake that's made by pouring batter into a pan—hence its name—and then flipping it so that both sides are cooked.A pancake is a thin, flat cake that's made by pouring batter into a pan—hence its name—and then flipping it so that both sides are cooked.A pancake is a thin, flat cake that's made by pouring batter into a pan—hence its name—and then flipping it so that both sides are cooked.A pancake is a thin, flat cake that's made by pouring batter into a pan—hence its name—and then flipping it so that both sides are cooked.A pancake is a thin, flat cake that's made by pouring batter into a pan—hence its name—and then flipping it so that both sides are cooked.A pancake is a thin, flat cake that's made by pouring batter into a pan—hence its name—and then flipping it so that both sides are cooked."),  
+                  child: ExpandableTextWidget(text: product.description!),  
                 margin: EdgeInsets.only(left: Dimensions.width20,right: Dimensions.radius20),
                 ),
               ],
@@ -69,7 +81,7 @@ class RecommenedFoodDetail extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
               AppIcon(icon: Icons.remove,backgroundColor: AppColors.mainColor,iconSize: Dimensions.iconSize24,iconColor: Colors.white,),
-              BigText(text: "\$12.88 "+" X "+" 0",color: AppColors.mainblackColor,size: Dimensions.font26,),
+              BigText(text: "\$ ${product.price}"+" X "+" 0",color: AppColors.mainblackColor,size: Dimensions.font26,),
               AppIcon(icon: Icons.add,backgroundColor: AppColors.mainColor,iconSize: Dimensions.iconSize24,iconColor: Colors.white,),
 
             ],),
@@ -107,7 +119,7 @@ class RecommenedFoodDetail extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  BigText(text: "\$ 0.08  Add to cart",color: Colors.white,)
+                  BigText(text: "\$ ${product.price} Add to cart",color: Colors.white,)
                 ],
               ),
             )

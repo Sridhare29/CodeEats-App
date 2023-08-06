@@ -1,19 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_applications/colors/app_constants.dart';
 import 'package:flutter_applications/colors/dimensions.dart';
+import 'package:flutter_applications/models/products.dart';
+import 'package:flutter_applications/routes/route_helper.dart';
 import 'package:flutter_applications/widget/app_column.dart';
 import 'package:flutter_applications/widget/app_icon.dart';
+import 'package:get/get.dart';
 
 import '../../colors/colors.dart';
+import '../../data/controllers/product_controller.dart';
 import '../../widget/big_text.dart';
 import '../../widget/expandable_text.dart';
 import '../../widget/small_text.dart';
+import '../food_ carousel.dart';
+import '../home_screen.dart';
 import '../icon_and_text_widget.dart';
 
 class FoodDetail extends StatelessWidget {
-  const FoodDetail({super.key});
+  int pageId;
+  FoodDetail({super.key,required this.pageId});
 
   @override
   Widget build(BuildContext context) {
+    var product = Get.find<ProductController>().ProductList[pageId];
+    print("page id :"+ pageId.toString());
+    print("page id :"+ product.name.toString());
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -28,7 +39,9 @@ class FoodDetail extends StatelessWidget {
               decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: AssetImage("images/pan.jpg"),
+                  image: NetworkImage(
+                    AppConstants.BASE_URL+AppConstants.UPLOAD_URL+product.img!,
+                  ),
                 ),
               ),
             ),
@@ -41,7 +54,11 @@ class FoodDetail extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppIcon(icon: Icons.arrow_back_ios),
+                GestureDetector(
+                  onTap: (){
+                    Get.toNamed(RouterHelper.getInitial());
+                  },
+                  child: AppIcon(icon: Icons.arrow_back_ios)),
                 AppIcon(icon: Icons.shopping_cart_outlined)
               ],
             ),
@@ -66,11 +83,11 @@ class FoodDetail extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const AppColumn(text: "Strawberry Vanilla Pancake"),
+                  AppColumn(text: product.name!),
                   SizedBox(height: Dimensions.height20,),
-                  BigText(text:"Introduce"),
+                  BigText(text:product.location!),
                   SizedBox(height: Dimensions.height20,),
-                  const Expanded(child:  SingleChildScrollView(child:  ExpandableTextWidget(text: "Framer is a design and prototyping tool that allows you to create interactive and high-fidelity user interfaces. It provides a comprehensive set of features for designing, animating, and collaborating on interface designs. With Framer, you can quickly turn your ideas into interactive prototypes and test them on various devices. Its intuitive interface and powerful functionality make it a popular choice for designers and developers. Whether you're designing for web, mobile, or desktop, Framer helps streamline your design workflow and bring your concepts to life.",)))
+                  Expanded(child:  SingleChildScrollView(child:  ExpandableTextWidget(text: product.description!))),
 
                 ],
               )
@@ -118,7 +135,7 @@ class FoodDetail extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  BigText(text: "\$ 0.08  Add to cart",color: Colors.white,)
+                  BigText(text: "\$ ${product.price!} | Add to cart",color: Colors.white,)
                 ],
               ),
             )
