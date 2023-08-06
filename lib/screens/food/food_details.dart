@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_applications/colors/dimensions.dart';
+import 'package:flutter_applications/models/products.dart';
 import 'package:flutter_applications/routes/route_helper.dart';
 import 'package:flutter_applications/widget/app_column.dart';
 import 'package:flutter_applications/widget/app_icon.dart';
 import 'package:get/get.dart';
 
 import '../../colors/colors.dart';
+import '../../data/controllers/product_controller.dart';
 import '../../widget/big_text.dart';
 import '../../widget/expandable_text.dart';
 import '../../widget/small_text.dart';
@@ -14,10 +16,14 @@ import '../home_screen.dart';
 import '../icon_and_text_widget.dart';
 
 class FoodDetail extends StatelessWidget {
-  const FoodDetail({super.key});
+  int pageId;
+  FoodDetail({super.key,required this.pageId});
 
   @override
   Widget build(BuildContext context) {
+    var product = Get.find<ProductController>().ProductList[pageId];
+    print("page id :"+ pageId.toString());
+    print("page id :"+ product.name.toString());
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
