@@ -20,7 +20,6 @@ Future<void> getProductList() async {
   Response response = await productRepo.getProductList();
 
   if (response.statusCode == 200) {
-    print("Got Product");
 
     _productList=[];
     _productList.addAll(Product.fromJson(response.body).products as Iterable<ProductModel>);

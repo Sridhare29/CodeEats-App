@@ -1,6 +1,8 @@
 import 'package:flutter_applications/colors/app_constants.dart';
 import 'package:flutter_applications/data/api/api_client.dart';
+import 'package:flutter_applications/data/controllers/cart_controller.dart';
 import 'package:flutter_applications/data/controllers/product_controller.dart';
+import 'package:flutter_applications/data/repository/cart_repo.dart';
 import 'package:flutter_applications/data/repository/product_repo.dart';
 import 'package:get/get.dart';
 
@@ -13,8 +15,11 @@ Future<void> init()async{
   //repos
   Get.lazyPut(() => ProductRepo(apiClient: Get.find()));
   Get.lazyPut(() => RecommendedProductRepo(apiClient: Get.find()));
+  Get.lazyPut(() => CartRepo());
 
   //controller
   Get.lazyPut(() => RecommendedProductController(recommendedproductRepo: Get.find()));
   Get.lazyPut(() => ProductController(productRepo: Get.find()));
+  Get.lazyPut(() => CartController(cartRepo: Get.find()));
+
 }
