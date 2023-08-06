@@ -23,8 +23,9 @@ class FoodDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var product = Get.find<ProductController>().ProductList[pageId];
-    print("page id :"+ pageId.toString());
-    print("page id :"+ product.name.toString());
+    // print("page id :"+ pageId.toString());
+    // print("page id :"+ product.name.toString());
+    Get.find<ProductController>().initProduct();
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -97,7 +98,8 @@ class FoodDetail extends StatelessWidget {
 
         ],
       ),
-      bottomNavigationBar: Container(
+      bottomNavigationBar: GetBuilder<ProductController>(builder: (popularProductQuantity){
+        return Container(
         height: Dimensions.bottomHeightBar,
         padding: EdgeInsets.only(top: Dimensions.height30,left: Dimensions.width20,right: Dimensions.width20,bottom: Dimensions.height30),
         decoration: BoxDecoration(
@@ -118,16 +120,23 @@ class FoodDetail extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  Icon(Icons.remove, color: AppColors.signColor,),
+                  GestureDetector(
+                      onTap: (){
+                      popularProductQuantity.setQuantity(false);
+                    },
+                  child: Icon(Icons.remove, color: AppColors.signColor,)),
                   SizedBox(width: Dimensions.width10/2,),
-                  BigText(text: "1"),
+                  BigText(text: popularProductQuantity.quantiy.toString()),
                   SizedBox(width: Dimensions.width10/2,),
-                  Icon(Icons.add, color: AppColors.signColor,)
+                  GestureDetector(
+                    onTap: (){
+                      popularProductQuantity.setQuantity(true);
+                    },
+                    child: Icon(Icons.add, color: AppColors.signColor,))
                 ],
               ),
             ),
             Container(
-              
               padding: EdgeInsets.only(top: Dimensions.height20,bottom: Dimensions.height20,left: Dimensions.width20,right: Dimensions.width20),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(Dimensions.radius20),
@@ -141,7 +150,8 @@ class FoodDetail extends StatelessWidget {
             )
           ],
         ),
-      ),
+      );
+      },)
     );
   }
 }
