@@ -1,15 +1,31 @@
 import 'package:flutter_applications/screens/food_%20carousel.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
+import 'package:get/get_navigation/src/routes/transitions_type.dart';
 
 import '../screens/food/food_details.dart';
+import '../screens/food/recommended_food_details.dart';
 import '../screens/home_screen.dart';
 
 class RouterHelper{
   static const String initial="/";
   static const String popularfood="/popular-food";
+  static const String recommendedfood="/recommended-food";
+
+  //to add parameter we use these method
+  static String getInitial()=> '$initial';
+  static String getPopularFood(int pageid)=> '$popularfood';
+  static String getRecommededFood()=> '$recommendedfood';
 
   static List<GetPage> routes=[
-      GetPage(name: "/", page: ()=>HomeScreen()),
-      GetPage(name: popularfood, page: ()=>FoodDetail()),
+      GetPage(name: initial, page: ()=>HomeScreen()),
+      GetPage(name: popularfood, page: (){
+        return FoodDetail();
+      },
+
+      transition: Transition.fadeIn),
+        GetPage(name: recommendedfood, page: (){
+        return RecommenedFoodDetail();
+      },
+      transition: Transition.fadeIn),
   ];
 }

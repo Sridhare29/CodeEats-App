@@ -47,7 +47,7 @@ class FoodDetail extends StatelessWidget {
               children: [
                 GestureDetector(
                   onTap: (){
-                    Get.toNamed(RouterHelper.initial);
+                    Get.toNamed(RouterHelper.getInitial());
                   },
                   child: AppIcon(icon: Icons.arrow_back_ios)),
                 AppIcon(icon: Icons.shopping_cart_outlined)
