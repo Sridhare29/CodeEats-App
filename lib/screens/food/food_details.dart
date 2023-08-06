@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_applications/colors/app_constants.dart';
 import 'package:flutter_applications/colors/dimensions.dart';
 import 'package:flutter_applications/models/products.dart';
 import 'package:flutter_applications/routes/route_helper.dart';
@@ -38,7 +39,9 @@ class FoodDetail extends StatelessWidget {
               decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: AssetImage("images/pan.jpg"),
+                  image: NetworkImage(
+                    AppConstants.BASE_URL+AppConstants.UPLOAD_URL+product.img!,
+                  ),
                 ),
               ),
             ),
@@ -80,11 +83,11 @@ class FoodDetail extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const AppColumn(text: "Strawberry Vanilla Pancake"),
+                  AppColumn(text: product.name!),
                   SizedBox(height: Dimensions.height20,),
-                  BigText(text:"Introduce"),
+                  BigText(text:product.location!),
                   SizedBox(height: Dimensions.height20,),
-                  const Expanded(child:  SingleChildScrollView(child:  ExpandableTextWidget(text: "Framer is a design and prototyping tool that allows you to create interactive and high-fidelity user interfaces. It provides a comprehensive set of features for designing, animating, and collaborating on interface designs. With Framer, you can quickly turn your ideas into interactive prototypes and test them on various devices. Its intuitive interface and powerful functionality make it a popular choice for designers and developers. Whether you're designing for web, mobile, or desktop, Framer helps streamline your design workflow and bring your concepts to life.",)))
+                  Expanded(child:  SingleChildScrollView(child:  ExpandableTextWidget(text: product.description!))),
 
                 ],
               )
@@ -132,7 +135,7 @@ class FoodDetail extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  BigText(text: "\$ 0.08  Add to cart",color: Colors.white,)
+                  BigText(text: "\$ ${product.price!} | Add to cart",color: Colors.white,)
                 ],
               ),
             )
