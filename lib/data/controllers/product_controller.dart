@@ -1,4 +1,5 @@
 import 'package:flutter_applications/colors/colors.dart';
+import 'package:flutter_applications/data/controllers/cart_controller.dart';
 import 'package:flutter_applications/data/repository/product_repo.dart';
 import 'package:flutter_applications/models/products.dart';
 import 'package:get/get.dart';
@@ -7,6 +8,8 @@ class ProductController extends GetxController{
   final ProductRepo productRepo;
   ProductController({required this.productRepo});
   List<ProductModel> _productList = [];
+  late CartController _cart;
+
 List<ProductModel> get ProductList => _productList;
 bool _isLoader = false;
 bool get isLoaded => _isLoader;
@@ -56,9 +59,29 @@ checkQuantity(int quantity)
     return quantity;
   }
 }
-void initProduct()
+void initProduct(CartController cart)
 {
   _quanity = 0;
-  int _inCartItems = 0;
+  _inCartItems = 0;
+  _cart = cart;
+  // _cart._items.forEach((key, value) {
+  //   print("the id is "+value.id.toString()+" quantity is "+value.ß!);
+  // });
+
+}
+void addItem(ProductModel product )
+{
+  if(_quanity>0){
+  _cart.addItem(product, _quanity);
+  _cart.items.forEach((key, value) {
+    print("The id is "+value.id.toString()+"The quantity is "+value.quantity.toString());
+  });
+  _quanity=0;
+  }
+  else{
+        Get.snackbar("Item Count", "You should add atleast on item in cart!",
+        backgroundColor: AppColors.mainColor,
+        colorText: AppColors.buttonBackgroundColor);
+  }
 }
 }

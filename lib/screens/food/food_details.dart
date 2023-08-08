@@ -8,6 +8,7 @@ import 'package:flutter_applications/widget/app_icon.dart';
 import 'package:get/get.dart';
 
 import '../../colors/colors.dart';
+import '../../data/controllers/cart_controller.dart';
 import '../../data/controllers/product_controller.dart';
 import '../../widget/big_text.dart';
 import '../../widget/expandable_text.dart';
@@ -25,7 +26,7 @@ class FoodDetail extends StatelessWidget {
     var product = Get.find<ProductController>().ProductList[pageId];
     // print("page id :"+ pageId.toString());
     // print("page id :"+ product.name.toString());
-    Get.find<ProductController>().initProduct();
+    Get.find<ProductController>().initProduct(Get.find<CartController>());
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -144,7 +145,10 @@ class FoodDetail extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  BigText(text: "\$ ${product.price!} | Add to cart",color: Colors.white,)
+                  GestureDetector(
+                    onTap: (){
+                      popularProductQuantity.addItem(product);
+                    },child: BigText(text: "\$ ${product.price!} | Add to cart",color: Colors.white,))
                 ],
               ),
             )
