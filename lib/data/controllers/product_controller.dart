@@ -59,15 +59,18 @@ checkQuantity(int quantity)
     return quantity;
   }
 }
-void initProduct(CartController cart)
+void initProduct(ProductModel productModel,CartController cart)
 {
   _quanity = 0;
   _inCartItems = 0;
   _cart = cart;
-  // _cart._items.forEach((key, value) {
-  //   print("the id is "+value.id.toString()+" quantity is "+value.ß!);
-  // });
-
+  var exist =false;
+  exist = _cart.exitInCart(productModel);
+  print("exsist or not "+exist.toString());
+  if(exist){
+    _inCartItems = _cart.getQuantity(productModel);
+  }
+  print("quantity in the cart is "+_inCartItems.toString());
 }
 void addItem(ProductModel product )
 {

@@ -7,9 +7,11 @@ class CartController extends GetxController{
   final CartRepo cartRepo;
   CartController({required this.cartRepo});
   Map<int,CartModel> _items={};
- Map<int, CartModel> get items => _items;
- 
+  Map<int, CartModel> get items => _items;
+
   void addItem(ProductModel product, int quantity){
+
+
     if(_items.containsKey(product.id!)){
             print("adding item to cart "+product.id!.toString()+"quantity" +quantity.toString());
             _items.forEach((key, value) {
@@ -40,4 +42,25 @@ else{
     );});
 }
   }
+
+  bool exitInCart(ProductModel product)
+  {
+    if(_items.containsKey(product.id)){
+      return true;
+    }
+    return false;
+ }
+
+ getQuantity(ProductModel productModel){
+  var quantity =0;
+  if(_items.containsKey(productModel.id)){
+    _items.forEach((key, value) {
+        if(key==productModel.id){
+          quantity = value.quantity!; 
+
+        }
+    });
+  }
+  return quantity;
+ }
 }

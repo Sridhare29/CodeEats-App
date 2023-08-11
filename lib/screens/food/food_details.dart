@@ -26,7 +26,7 @@ class FoodDetail extends StatelessWidget {
     var product = Get.find<ProductController>().ProductList[pageId];
     // print("page id :"+ pageId.toString());
     // print("page id :"+ product.name.toString());
-    Get.find<ProductController>().initProduct(Get.find<CartController>());
+    Get.find<ProductController>().initProduct(product,Get.find<CartController>());
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -127,7 +127,7 @@ class FoodDetail extends StatelessWidget {
                     },
                   child: Icon(Icons.remove, color: AppColors.signColor,)),
                   SizedBox(width: Dimensions.width10/2,),
-                  BigText(text: popularProductQuantity.quantiy.toString()),
+                  BigText(text: popularProductQuantity.inCartItems.toString()),
                   SizedBox(width: Dimensions.width10/2,),
                   GestureDetector(
                     onTap: (){
