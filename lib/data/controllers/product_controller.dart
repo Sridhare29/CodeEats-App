@@ -42,17 +42,18 @@ void  setQuantity(bool isIncrement)
   else
   {
     _quanity = checkQuantity(_quanity - 1);
+    print("decrement "+_quanity.toString());
   }
 update();
 }
 checkQuantity(int quantity)
 {
-  if(quantity<0){
+  if(_inCartItems+quantity<0){
     Get.snackbar("Item Count", "You can't reduce more!",backgroundColor: AppColors.mainColor,colorText: AppColors.buttonBackgroundColor);
     return 0;
   }
-  else if(quantity>20){
-        Get.snackbar("Item Count", "You can't add more!",backgroundColor: AppColors.mainColor,colorText: AppColors.buttonBackgroundColor);
+  else if(_inCartItems+quantity>20){
+    Get.snackbar("Item Count", "You can't add more!",backgroundColor: AppColors.mainColor,colorText: AppColors.buttonBackgroundColor);
     return 20;
   }
   else{
@@ -72,19 +73,21 @@ void initProduct(ProductModel productModel,CartController cart)
   }
   print("quantity in the cart is "+_inCartItems.toString());
 }
+
 void addItem(ProductModel product )
 {
-  if(_quanity>0){
+  // if(_quanity>0){
   _cart.addItem(product, _quanity);
+  _quanity=0;
+  _inCartItems = _cart.getQuantity(product);
   _cart.items.forEach((key, value) {
     print("The id is "+value.id.toString()+"The quantity is "+value.quantity.toString());
   });
-  _quanity=0;
-  }
-  else{
-        Get.snackbar("Item Count", "You should add atleast on item in cart!",
-        backgroundColor: AppColors.mainColor,
-        colorText: AppColors.buttonBackgroundColor);
-  }
+  // }
+  // else{
+        // Get.snackbar("Item Count", "You should add atleast on item in cart!",
+        // backgroundColor: AppColors.mainColor,
+        // colorText: AppColors.buttonBackgroundColor);
+  // }
 }
 }
