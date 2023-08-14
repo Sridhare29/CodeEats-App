@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Ecommerce App',
-      initialRoute: RouterHelper.initial,
+      initialRoute: RouterHelper.getInitial(),
       getPages: RouterHelper.routes,
       home: const HomeScreen(),
     );
